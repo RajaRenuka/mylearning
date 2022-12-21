@@ -1,0 +1,81 @@
+Basic Queries:
+
+1. select current_database();
+2. select current_schema();
+3. select current_role();
+4. select current_warehouse();
+5. select current_date();
+6. select current_time();
+7. select current_Timestamp();
+8. select current_client();
+9. select current_region();
+10. select current_session();
+11. select current_version();
+12. select current_user();
+13. select current_statement();
+14. select current_transaction();
+15. select current_ip_address();
+16. Alter session set time_output_format = 'HH24:MI:SS.FF';
+    select current_time(2);
+17. select current_available_roles();
+18. select current_schemas();
+19. select current_account();
+
+*  use role sysadmin;
+1. create or replace database Atossyntel;
+2. Drop database Atossyntel;
+3. Undrop database Atossyntel; ---> to restore database (undrop applicable for database,schema and table)
+4. Create or Replace warehouse Raja_Reddy with warehouse_size = 'X-SMALL'
+   auto_suspend = 120
+   auto_resume = true
+   initially_suspended = true
+   min_cluster_count = 1
+   max_cluster_count = 2
+   scaling_policy = 'Economy';
+5. Alter warehouse Raja_Reddy resume;
+6. Alter warehouse Raja_Reddy suspend;
+* use database Atossyntel;
+7. create or replace table Nothern_Trust (NT_subproject String, NT_teammembersname string,NT_totalmembers integer);
+8. Insert into Nothern_Trust (NT_subproject, NT_teammembersname,NT_totalmembers ) values ('enterprise testing','Raj',10);
+   Insert into Nothern_Trust (NT_subproject, NT_teammembersname,NT_totalmembers ) values ('php','Raju',15);
+9. Alter table Nothern_Trust rename to Draft;
+10. Drop table Draft;s
+11. undrop table Draft;
+12. Show tables;
+13. Show tables in Atossyntel.PUBLIC;
+14. SHOW TABLES LIKE 'dim%' IN Atossyntel.public;
+15. Select *from Draft;
+16. Select *from Draft where NT_subproject = 'enterprise testing';
+17. select * from Draft at(offset => -60*5); --->(“OFFSET” is the time difference in seconds from the present time. 
+--->The following query selects historical data from a table as of 5 minutes ago.)
+18. select * from Draft at(timestamp => 'Thu, 08 Dec 2022 11:25:00 +0530'::timestamp_tz);
+--->“TIMESTAMP” to get the data at or before a particular date and time.
+---> The following query selects historical data from a table as of the date and time represented by the specified timestamp.
+19. select * from Draft before(statement => '01a8d331-0000-4116-0004-3ae6000213be');
+---> The following query selects historical data from a table up to, but not including any changes made by the specified statement.
+--->The Query ID used in the statement belongs to Update statement we executed earlier. The query ID can be
+ obtained from “Open History”.
+20. UPDATE Draft SET IS_ACTIVE = 1;
+    FROM Draft AS i
+    INNER JOIN dbo.Draft AS old
+    ON i.NT_totalmembers = old.NT_totalmembers
+    WHERE old.IsActive = 1;
+         SELECT * FROM Draft;
+21. create or replace stage Syntel;
+22. CREATE STAGE my_s3_stage 
+    URL = 's3://mybucket/snowflake/' 
+    CREDENTIALS = (AWS_KEY_ID = '*********************'  AWS_SECRET_KEY = '**************');
+23. Show stages;
+24. Alter stage Syntel Rename to Atos;
+25. Drop Stage Atos;
+26. create or replace view SAP as select *from Draft;
+27. Show views;
+28. Create or Replace file format Pavan
+     Type = 'csv' 
+     field_delimiter = ','
+     comment = 'first file format';
+29. show file formats;
+30. Drop file format Pavan;
+
+Username
+0053r00000APbDdAAL
